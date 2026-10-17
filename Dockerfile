@@ -9,7 +9,7 @@ RUN dpkg --add-architecture i386 \
  && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /root/.vnc && x11vnc -storepasswd sadik123 /root/.vnc/passwd \
  && ln -sf /usr/share/novnc/vnc.html /usr/share/novnc/index.html
-RUN printf '#!/bin/bash\nexport DISPLAY=:0\nXvfb :0 -screen 0 1024x600x16 &\nsleep 2\nfluxbox &\nx11vnc -display :0 -rfbauth /root/.vnc/passwd -forever -shared -rfbport 5900 -localhost &\nexec websockify --web=/usr/share/novnc ${PORT:-10000} localhost:5900\n' > /start.sh \
+RUN printf '#!/bin/bash\nexport DISPLAY=:0\nXvfb :0 -screen 0 1024x600x16 &\nsleep 2\nfluxbox &\nxterm -geometry 100x30+10+10 &\nx11vnc -display :0 -rfbauth /root/.vnc/passwd -forever -shared -rfbport 5900 -localhost &\nexec websockify --web=/usr/share/novnc ${PORT:-10000} localhost:5900\n' > /start.sh \
  && chmod +x /start.sh
 EXPOSE 10000
 CMD ["/start.sh"]
